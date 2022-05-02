@@ -15,9 +15,10 @@ def main():
         args = parser.parse_args(sys.argv[1:])
         logger.error("--> SET CONFIG")
         cnf.set(token=args.token)
-        logger.error("--> START BOT")
+        logger.error("--> START BOT\n")
         run_bot()
     except Exception as error:
-        print(f"\nERROR: {error}\n")
+        logger.error(f"\nERROR: {error}\n")
     finally:
+        logger.error("\n--> DEL CONFIG")
         cnf.delete()

@@ -64,21 +64,37 @@ async def process_message(message: types.Message):
     """Working with messages from the user"""
     try:
         favorites.get_favorite(chat_id=message.from_user.id)
-        await bot.send_audio(
-            message.from_user.id,
-            open(str_to_mp3(
-                text=message.text,
-                language=identify_language(message.text),
-                username=message.from_user.username
-            ), "rb"),
-            performer=f"@{message.from_user.username}",
-            title="Your message"
-        )
+        if len(message.text) >= 60:
+            await bot.send_audio(
+                message.from_user.id,
+                open(str_to_mp3(
+                    text=message.text,
+                    language=identify_language(message.text),
+                    username=message.from_user.username
+                ), "rb"),
+                performer=f"@{message.from_user.username}",
+                title="Your message"
+            )
+        else:
+            await bot.send_voice(
+                message.from_user.id,
+                open(str_to_mp3(
+                    text=message.text,
+                    language=identify_language(message.text),
+                    username=message.from_user.username
+                ), "rb"),
+            )
     except Exception as error:
         logger.error(f"ERROR: {error}")
         await message.answer("Something went wrong...")
     finally:
         Utils.del_mp3_file(username=message.from_user.username)
+
+@dp.callback_query_handler(
+    lambda c: c.data[:9] == 'type_' and c.data[9: 11] in ["voice", "audio"]
+)
+def type_send():
+    pass
 
 # <<<============================================>>> Run bot <<<=====================================================>>>
 
