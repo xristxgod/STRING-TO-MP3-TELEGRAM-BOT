@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  tg_bot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: tg_bot
+    command: python app.py
+    env_file:
+      - ./.env
+    networks:
+      - telegram_bot
+    logging:
+      options:
+        max-size: 100m
+
+networks:
+  telegram_bot:
+    driver: bridge
