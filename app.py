@@ -9,7 +9,7 @@ if __name__ == '__main__':
     try:
         import sys
         import argparse
-        parser = argparse.ArgumentParser(prog="telegram_bot")
+        parser = argparse.ArgumentParser()
         parser.add_argument("-t", "--token", default=None)
         args = parser.parse_args(sys.argv[1:])
         logger.error("--> SET CONFIG")
