@@ -17,4 +17,4 @@ logger = logging.getLogger(__name__)
 
 class Config(object):
     # Bot token
-    TOKEN = os.getenv("TOKEN", "1665858801:AAEXg5klclU9NvFoEtb8kP1prAlR2q9YNU0")
+    TOKEN = os.getenv("TOKEN")
