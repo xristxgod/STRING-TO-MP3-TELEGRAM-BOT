@@ -1,5 +1,8 @@
 import typing
 
+from src.utils import Utils
+from config import Config as setting
+
 class Favorites:
 
     def __init__(self):
@@ -25,3 +28,25 @@ class Favorites:
                 break
         else:
             self.set_language(chat_id=chat_id)
+
+class Config:
+
+    def __init__(self):
+        self.token = None
+
+    def set(self, token: str = None):
+        if token is None:
+            self.token = setting.TOKEN
+        elif Utils.check_token(token=token):
+            self.token = token
+        else:
+            raise Exception("This token is not suitable. The correct token can be obtained here: @BotFather")
+
+    @property
+    def get(self):
+        return self.token
+
+    def delete(self):
+        del self.token
+
+cnf = Config()

@@ -1,12 +1,13 @@
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from src.__init__ import Favorites
-from src.service import identify_language, str_to_mp3, del_mp3_file
-from config import Config, LANGUAGES, logging, logger
+from src.__init__ import Favorites, cnf
+from src.utils import Utils
+from src.service import identify_language, str_to_mp3
+from config import LANGUAGES, logging, logger
 
 storage = MemoryStorage()
-bot = Bot(Config.TOKEN)
+bot = Bot(cnf.get)
 dp = Dispatcher(bot, storage=storage)
 logging.basicConfig(level=logging.INFO)
 
@@ -46,7 +47,7 @@ async def set_language(callback_query: types.CallbackQuery):
     )
 
 @dp.callback_query_handler(
-    lambda c: c.data[0:9] == 'language_' and c.data[9: 11] in [_language.lower() for _language in LANGUAGES.keys()]
+    lambda c: c.data[:9] == 'language_' and c.data[9: 11] in [_language.lower() for _language in LANGUAGES.keys()]
 )
 async def language(callback_query: types.CallbackQuery):
     logger.error(f"SET LANGUAGE: {callback_query.from_user.id} == {LANGUAGES.get(callback_query.data[9: 11])}")
@@ -68,4 +69,10 @@ async def process_message(message: types.Message):
     except Exception as error:
         await message.answer("Something went wrong...")
     finally:
-        del_mp3_file()
+        Utils.del_mp3_file()
+
+# <<<============================================>>> Run bot <<<=====================================================>>>
+
+def run():
+    # Run bot
+    executor.start_polling(dp, skip_updates=True)

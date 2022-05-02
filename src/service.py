@@ -33,16 +33,3 @@ def str_to_mp3(text: str, language="en") -> typing.Union[str, None]:
     except Exception as error:
         logger.error(f"ERROR: {error}")
         return None
-
-def del_mp3_file() -> bool:
-    try:
-        logger.error("START DEL MP3 FILE!")
-        if Path(MP3_FILE_PATH).is_file():
-            logger.error("[-] THE MP3 FILE HAS BEEN DELETED!")
-            os.remove(MP3_FILE_PATH)
-        else:
-            logger.error("THE FILE WAS NOT FOUND!")
-        return True
-    except Exception as error:
-        logger.error(f"ERROR: {error}")
-        return False
