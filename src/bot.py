@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from src.__init__ import Favorites
+from src.service import identify_language, str_to_mp3, del_mp3_file
 from config import Config, LANGUAGES, logging, logger
 
 storage = MemoryStorage()
@@ -15,7 +16,6 @@ favorites = Favorites()
 async def start(message: types.Message):
     keyboard_markup = types.InlineKeyboardMarkup()
     keyboard_markup.row(types.InlineKeyboardButton("Set base language:", callback_data='set_language'))
-    favorites.set_language(chat_id=message.from_user.id)
     await message.answer(
         (
             "<b> Welcome to our bot </b> \n"
@@ -57,4 +57,15 @@ async def language(callback_query: types.CallbackQuery):
 
 @dp.message_handler()
 async def process_message(message: types.Message):
-    await message.answer(message.text)
+    try:
+        favorites.get_favorite(chat_id=message.from_user.id)
+        await bot.send_audio(
+            message.from_user.id,
+            open(str_to_mp3(text=message.text, language=identify_language(message.text)), "rb"),
+            performer=f"@{message.from_user.username}",
+            title="Your message"
+        )
+    except Exception as error:
+        await message.answer("Something went wrong...")
+    finally:
+        del_mp3_file()

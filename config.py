@@ -15,4 +15,5 @@ logger = logging.getLogger(__name__)
 
 class Config(object):
 
-    TOKEN = os.getenv("TOKEN", "")
+    TOKEN = os.getenv("TOKEN", "1665858801:AAEXg5klclU9NvFoEtb8kP1prAlR2q9YNU0")
+

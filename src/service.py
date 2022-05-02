@@ -18,7 +18,7 @@ def identify_language(text: str) -> typing.Union[str, None]:
         logger.error(f"ERROR: {error}")
         return None
 
-def str_to_mp3(text: str, language="en") -> bool:
+def str_to_mp3(text: str, language="en") -> typing.Union[str, None]:
     try:
         logger.error("STR TO MP3 STARTS")
         logger.error("PROCESSING...")
@@ -29,7 +29,7 @@ def str_to_mp3(text: str, language="en") -> bool:
         )
         audio.save(MP3_FILE_PATH)
         logger.error("[+] MP3 FILE SAVED SUCCESSFULLY!")
-        return True
+        return MP3_FILE_PATH
     except Exception as error:
         logger.error(f"ERROR: {error}")
         return None

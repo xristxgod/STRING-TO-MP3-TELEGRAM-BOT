@@ -18,3 +18,10 @@ class Favorites:
 
     def clear_favorites(self):
         self.favorites_list = []
+
+    def get_favorite(self, chat_id):
+        for favorite in self.favorites_list:
+            if favorite.get("id") == chat_id:
+                break
+        else:
+            self.set_language(chat_id=chat_id)
