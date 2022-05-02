@@ -16,14 +16,14 @@ python3 ./app.py -t yourBotToken
 # <<<====================>>> Docker <<<====================>>>
 
 # Run by docker
-docker-compose --file bot-docker-compose.yml up --build
+docker-compose --file ./bot-docker-compose.yml up --build
 # Stop docker
-docker-compose --file bot-docker-compose.yml stop
+docker-compose --file ./bot-docker-compose.yml stop
 
 # <<<====================>>> Bush <<<====================>>>
 
 # Run by bush
-bush run.sh
+bush ./run.sh
 # Stop bush
-bush stop.sh
+bush ./stop.sh
 ```
