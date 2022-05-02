@@ -1,8 +1,11 @@
+import os
 import typing
+from pathlib import Path
 
+from gtts import gTTS
 from langdetect import detect
 
-from config import LANGUAGES, logger
+from config import LANGUAGES, MP3_FILE_PATH, logger
 
 def identify_language(text: str) -> typing.Union[str, None]:
     """
@@ -10,12 +13,36 @@ def identify_language(text: str) -> typing.Union[str, None]:
     :param text: Text for language detection
     """
     try:
-        language = detect(text)
-        return language if language in [_language for _language in LANGUAGES.keys()] else None
+        return detect(text)
     except Exception as error:
         logger.error(f"ERROR: {error}")
         return None
 
-if __name__ == '__main__':
-   assert identify_language("Привет, давай я тебе расскажу кое что!!") == "ru"
-   assert identify_language("Hello world!") == "en"
+def str_to_mp3(text: str, language="en") -> bool:
+    try:
+        logger.error("STR TO MP3 STARTS")
+        logger.error("PROCESSING...")
+        audio = gTTS(
+            text=text,
+            lang=language if language in [_language for _language in LANGUAGES.keys()] else "ru",
+            slow=False
+        )
+        audio.save(MP3_FILE_PATH)
+        logger.error("[+] MP3 FILE SAVED SUCCESSFULLY!")
+        return True
+    except Exception as error:
+        logger.error(f"ERROR: {error}")
+        return None
+
+def del_mp3_file() -> bool:
+    try:
+        logger.error("START DEL MP3 FILE!")
+        if Path(MP3_FILE_PATH).is_file():
+            logger.error("[-] THE MP3 FILE HAS BEEN DELETED!")
+            os.remove(MP3_FILE_PATH)
+        else:
+            logger.error("THE FILE WAS NOT FOUND!")
+        return True
+    except Exception as error:
+        logger.error(f"ERROR: {error}")
+        return False
