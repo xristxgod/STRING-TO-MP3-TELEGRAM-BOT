@@ -28,6 +28,4 @@ bush run.sh
 bush stop.sh
 ```
 
-![page_one](https://user-images.githubusercontent.com/84931791/166212800-51e1de55-2c6a-482c-b9df-8eaab2dd4084.png)
-
-![page_two](https://user-images.githubusercontent.com/84931791/166212815-7221b5d7-efa8-4e68-9a14-98ae2be97cfc.png)
+![test_message](https://user-images.githubusercontent.com/84931791/166212815-7221b5d7-efa8-4e68-9a14-98ae2be97cfc.png)
