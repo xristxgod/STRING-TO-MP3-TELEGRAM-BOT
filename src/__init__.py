@@ -5,7 +5,7 @@ class Favorites:
     def __init__(self):
         self.favorites_list: typing.List[typing.Dict] = []
 
-    def set_language(self, chat_id: int, language: str):
+    def set_language(self, chat_id: int, language: str = "en"):
         for favorite in self.favorites_list:
             if favorite.get("id") == chat_id:
                 favorite["language"] = language
