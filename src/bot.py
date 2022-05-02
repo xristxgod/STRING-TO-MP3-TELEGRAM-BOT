@@ -30,8 +30,10 @@ async def start(message: types.Message):
 
 @dp.callback_query_handler(lambda c: c.data == 'set_language')
 async def set_language(callback_query: types.CallbackQuery):
+    """Set the base language for text-to-speech"""
     keyboard_markup = types.InlineKeyboardMarkup()
     btn_s = []
+    # Generation of buttons with available languages.
     for language_key, language_value in LANGUAGES.items():
         btn_s.append(
             types.InlineKeyboardButton(
@@ -50,6 +52,7 @@ async def set_language(callback_query: types.CallbackQuery):
     lambda c: c.data[:9] == 'language_' and c.data[9: 11] in [_language.lower() for _language in LANGUAGES.keys()]
 )
 async def language(callback_query: types.CallbackQuery):
+    """Receives a signal that it is necessary to change the basic language of the user"""
     logger.error(f"SET LANGUAGE: {callback_query.from_user.id} == {LANGUAGES.get(callback_query.data[9: 11])}")
     favorites.set_language(chat_id=callback_query.from_user.id, language=callback_query.data[9: 11])
     await callback_query.answer(
@@ -58,18 +61,24 @@ async def language(callback_query: types.CallbackQuery):
 
 @dp.message_handler()
 async def process_message(message: types.Message):
+    """Working with messages from the user"""
     try:
         favorites.get_favorite(chat_id=message.from_user.id)
         await bot.send_audio(
             message.from_user.id,
-            open(str_to_mp3(text=message.text, language=identify_language(message.text)), "rb"),
+            open(str_to_mp3(
+                text=message.text,
+                language=identify_language(message.text),
+                username=message.from_user.username
+            ), "rb"),
             performer=f"@{message.from_user.username}",
             title="Your message"
         )
     except Exception as error:
+        logger.error(f"ERROR: {error}")
         await message.answer("Something went wrong...")
     finally:
-        Utils.del_mp3_file()
+        Utils.del_mp3_file(username=message.from_user.username)
 
 # <<<============================================>>> Run bot <<<=====================================================>>>
 

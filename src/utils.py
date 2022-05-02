@@ -1,17 +1,17 @@
 import os
 from pathlib import Path
 
-from config import MP3_FILE_PATH, logger
+from config import BASE_DIR, logger
 
 class Utils:
 
     @staticmethod
-    def del_mp3_file() -> bool:
+    def del_mp3_file(username) -> bool:
         try:
             logger.error("START DEL MP3 FILE!")
-            if Path(MP3_FILE_PATH).is_file():
+            if Path(os.path.join(BASE_DIR, f"{username}-audio.mp3")).is_file():
                 logger.error("[-] THE MP3 FILE HAS BEEN DELETED!")
-                os.remove(MP3_FILE_PATH)
+                os.remove(os.path.join(BASE_DIR, f"{username}-audio.mp3"))
             else:
                 logger.error("THE FILE WAS NOT FOUND!")
             return True
