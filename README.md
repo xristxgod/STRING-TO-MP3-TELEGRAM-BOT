@@ -27,5 +27,5 @@ bush run.sh
 # Stop bush
 bush stop.sh
 ```
-
+Example of work:
 ![test_message](https://user-images.githubusercontent.com/84931791/166212815-7221b5d7-efa8-4e68-9a14-98ae2be97cfc.png)
