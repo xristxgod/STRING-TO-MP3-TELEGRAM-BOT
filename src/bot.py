@@ -9,7 +9,6 @@ from config import LANGUAGES, logging, logger
 storage = MemoryStorage()
 bot = Bot(cnf.get)
 dp = Dispatcher(bot, storage=storage)
-logging.basicConfig(level=logging.INFO)
 
 favorites = Favorites()
 
